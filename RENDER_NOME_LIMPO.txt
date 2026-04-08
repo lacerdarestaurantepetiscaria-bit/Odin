@@ -1,0 +1,12 @@
+ODIN - NOME LIMPO PARA O RENDER
+
+Ajuste aplicado:
+- serviço web: odin
+- banco de dados: odin
+
+Arquivo alterado:
+- render.yaml
+
+Observação:
+Se o nome 'odin' já estiver em uso no Render, a plataforma pode gerar
+uma variação automática no subdomínio.

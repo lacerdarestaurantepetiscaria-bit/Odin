@@ -1,0 +1,30 @@
+ODIN - RENDER SEM SHELL
+
+Este pacote foi ajustado para funcionar sem precisar abrir shell no Render
+para criar ou trocar usuário e senha do admin.
+
+COMO FUNCIONA:
+- o build.sh roda:
+  python manage.py ensure_admin
+
+VARIÁVEIS QUE VOCÊ DEFINE NO RENDER:
+- ADMIN_USERNAME
+- ADMIN_EMAIL
+- ADMIN_PASSWORD
+
+EXEMPLO:
+ADMIN_USERNAME=admin
+ADMIN_EMAIL=seuemail@exemplo.com
+ADMIN_PASSWORD=SuaSenhaForte123
+
+RESULTADO:
+- no deploy o Odin cria ou atualiza o superusuário automaticamente
+
+IMPORTANTE:
+se você mudar o ADMIN_PASSWORD no Render e fizer novo deploy,
+a senha do admin será atualizada sem usar shell.
+
+GITHUB / VS CODE:
+- o programa não precisa de link embutido do GitHub dentro do VS Code
+- basta abrir a pasta localmente no VS Code
+- para deploy no Render, você usa um repositório Git normal só quando quiser publicar

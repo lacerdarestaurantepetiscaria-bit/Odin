@@ -224,22 +224,28 @@ O Render usa:
 - `build.sh`
 
 
-## Odin V13 | Admin automático sem Shell
-Esta versão adiciona o comando `bootstrap_admin`.
+## Ajuste final de nome no Render
+O `render.yaml` foi ajustado para usar nome limpo:
+- serviço web: `odin`
+- banco: `odin`
 
-### O que muda
-- cria ou atualiza superusuário automaticamente no deploy
-- funciona por variáveis de ambiente
-- evita depender do Shell pago do Render
+Isso ajuda a deixar o link mais profissional no deploy.
 
-### Variáveis necessárias no Render
+
+## Render sem shell para admin
+Este pacote cria ou atualiza o superusuário automaticamente no deploy usando:
 - `ADMIN_USERNAME`
 - `ADMIN_EMAIL`
 - `ADMIN_PASSWORD`
 
+<<<<<<< HEAD
 ### Fluxo
 1. subir arquivos no GitHub
 2. configurar as 3 variáveis no Render
 3. fazer deploy manual
 4. entrar em `/admin/`
 >>>>>>> da5694a (V13 admin automatico)
+=======
+Com isso, você não precisa abrir shell no Render para criar admin ou trocar senha.
+Basta alterar as variáveis e fazer novo deploy.
+>>>>>>> a2b2047 (Odin sistema completo)
