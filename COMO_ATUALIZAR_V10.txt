@@ -1,0 +1,20 @@
+ODIN V10
+
+1) Extraia o ZIP em pasta nova
+2) No terminal do VS Code:
+
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver 0.0.0.0:8000
+
+Melhorias desta versão:
+- layout premium mais consistente
+- navegação lateral reorganizada
+- barra rápida mobile
+- PDV com carrinho persistente no navegador
+- busca e filtro mais rápidos
+- tela de pedidos com pesquisa

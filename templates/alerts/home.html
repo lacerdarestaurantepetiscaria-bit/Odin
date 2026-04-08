@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block page_title %}Alertas{% endblock %}
+{% block page_subtitle %}Centro de atenção do sistema{% endblock %}
+{% block content %}
+<div class="panel-grid">
+  <article class="panel-card">
+    <div class="panel-head"><h3>Estoque baixo</h3></div>
+    <div class="command-list">
+      {% for supply in low_supplies %}
+        <div class="command-item"><strong>{{ supply.name }}</strong><br>Atual: {{ supply.quantity }} {{ supply.get_unit_display }} | Mínimo: {{ supply.minimum_quantity }}</div>
+      {% empty %}
+        <div class="empty-box">Nenhum item com estoque baixo.</div>
+      {% endfor %}
+    </div>
+  </article>
+
+  <article class="panel-card">
+    <div class="panel-head"><h3>Pedidos ativos</h3></div>
+    <div class="command-list">
+      {% for order in delayed_orders %}
+        <div class="command-item"><strong>Pedido #{{ order.id }}</strong><br>Status: {{ order.get_status_display }} | Tipo: {{ order.get_service_type_display }}</div>
+      {% empty %}
+        <div class="empty-box">Sem pedidos ativos.</div>
+      {% endfor %}
+    </div>
+  </article>
+</div>
+{% endblock %}

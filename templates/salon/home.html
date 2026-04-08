@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block page_title %}Salão{% endblock %}
+{% block page_subtitle %}Mapa de mesas operacional{% endblock %}
+{% block content %}
+<section class="page-banner">
+  <div>
+    <span class="eyebrow">MAPA DE MESAS</span>
+    <h2>Salão visual</h2>
+    <p>Status rápido por mesa: livre, aberto, preparo e pronto.</p>
+  </div>
+  <a class="btn btn-primary" href="/pdv/">Abrir PDV</a>
+</section>
+
+<div class="table-grid">
+  {% for table in tables %}
+  <div class="table-card status-{{ table.status }}">
+    <div class="table-top">
+      <span class="table-number">Mesa {{ table.number }}</span>
+      <span class="status-chip">{{ table.status|title }}</span>
+    </div>
+    {% if table.order %}
+      <div class="table-meta">Pedido #{{ table.order.id }}</div>
+      <div class="table-meta">Itens: {{ table.item_count }}</div>
+      <div class="table-meta">Total: R$ {{ table.total }}</div>
+      <div class="table-actions">
+        <a href="/pedidos/{{ table.order.id }}/status/preparo/">Preparo</a>
+        <a href="/pedidos/{{ table.order.id }}/status/pronto/">Pronto</a>
+        <a href="/pagamentos/novo/">Fechar</a>
+      </div>
+    {% else %}
+      <div class="table-empty">Mesa livre</div>
+      <div class="table-actions">
+        <a href="/pdv/">Abrir no PDV</a>
+      </div>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block page_title %}Estoque{% endblock %}
+{% block page_subtitle %}Controle de insumos{% endblock %}
+{% block content %}
+<section class="page-banner">
+  <div>
+    <span class="eyebrow">INSUMOS</span>
+    <h2>Estoque e alertas</h2>
+    <p>Cadastre insumos, custo, unidade e mínimo. A baixa automática usa a ficha técnica.</p>
+  </div>
+  <a class="btn btn-primary" href="/estoque/novo/">+ Novo insumo</a>
+</section>
+
+<article class="panel-card">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Categoria</th>
+        <th>Unidade</th>
+        <th>Quantidade</th>
+        <th>Mínimo</th>
+        <th>Custo</th>
+        <th>Status</th>
+        <th>Ação</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for supply in supplies %}
+      <tr>
+        <td><strong>{{ supply.name }}</strong></td>
+        <td>{{ supply.get_category_display }}</td>
+        <td>{{ supply.get_unit_display }}</td>
+        <td>{{ supply.quantity }}</td>
+        <td>{{ supply.minimum_quantity }}</td>
+        <td>R$ {{ supply.cost }}</td>
+        <td>
+          {% if supply.is_low %}
+            <span class="status-chip off">Baixo</span>
+          {% else %}
+            <span class="status-chip on">Ok</span>
+          {% endif %}
+        </td>
+        <td><a href="/estoque/{{ supply.id }}/toggle/">Alternar</a></td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="8">Nenhum insumo cadastrado.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</article>
+{% endblock %}

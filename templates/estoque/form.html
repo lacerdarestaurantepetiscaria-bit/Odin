@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block page_title %}Estoque{% endblock %}
+{% block page_subtitle %}Cadastro de insumo{% endblock %}
+{% block content %}
+<article class="form-panel">
+  <div class="form-side">
+    <span class="eyebrow">NOVO INSUMO</span>
+    <h2>{{ title }}</h2>
+    <p>Cadastre arroz, feijão, óleo, carne, cebola e tudo que precisa ser baixado na produção.</p>
+  </div>
+  <div class="panel-card">
+    <form method="post" class="clean-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn btn-primary" type="submit">Salvar insumo</button>
+    </form>
+  </div>
+</article>
+{% endblock %}

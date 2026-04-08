@@ -1,0 +1,17 @@
+PASSOS RÁPIDOS NO VS CODE
+
+1) Abra a pasta do projeto no VS Code
+2) Abra o terminal do VS Code
+3) Rode um comando por vez:
+
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver 0.0.0.0:8000
+
+Se o PowerShell bloquear script:
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\venv\Scripts\Activate.ps1

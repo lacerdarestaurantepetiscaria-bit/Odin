@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block page_title %}Pedidos{% endblock %}
+{% block page_subtitle %}Fila operacional e conferência rápida{% endblock %}
+{% block content %}
+<section class="page-banner">
+  <div>
+    <span class="eyebrow">CENTRAL DE PEDIDOS</span>
+    <h2>Pedidos ativos e histórico</h2>
+  </div>
+  <div class="page-actions-inline">
+    <input id="orderSearch" class="pdv-search small-search" placeholder="Buscar por cliente, mesa ou tipo">
+    <a class="btn btn-primary" href="/pedidos/novo/">+ Novo pedido</a>
+  </div>
+</section>
+
+<article class="panel-card">
+  <table class="data-table" id="ordersTable">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Mesa</th>
+        <th>Cliente</th>
+        <th>Tipo</th>
+        <th>Status</th>
+        <th>Total</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+      <tr data-search="#{{ order.id }} {{ order.table_number|default:'' }} {{ order.customer|default:'' }} {{ order.get_service_type_display }} {{ order.get_status_display }}">
+        <td>#{{ order.id }}</td>
+        <td>{{ order.table_number|default:"-" }}</td>
+        <td>{{ order.customer|default:"-" }}</td>
+        <td>{{ order.get_service_type_display }}</td>
+        <td><span class="status-chip">{{ order.get_status_display }}</span></td>
+        <td>R$ {{ order.total }}</td>
+        <td class="nowrap">
+          <a href="/pedidos/{{ order.id }}/status/preparo/">Preparo</a> |
+          <a href="/pedidos/{{ order.id }}/status/pronto/">Pronto</a> |
+          <a href="/pedidos/{{ order.id }}/status/entregue/">Entregue</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="7">Nenhum pedido cadastrado.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</article>
+
+<script>
+  const orderSearch = document.getElementById("orderSearch");
+  if (orderSearch) {
+    orderSearch.addEventListener("input", function() {
+      const q = this.value.toLowerCase().trim();
+      document.querySelectorAll("#ordersTable tbody tr").forEach(row => {
+        const text = (row.dataset.search || "").toLowerCase();
+        row.style.display = text.includes(q) ? "" : "none";
+      });
+    });
+  }
+</script>
+{% endblock %}

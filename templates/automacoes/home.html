@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block page_title %}Automações{% endblock %}
+{% block page_subtitle %}Regras rápidas do Odin{% endblock %}
+{% block content %}
+<div class="panel-grid">
+  <article class="panel-card">
+    <div class="panel-head"><h3>Ações automáticas</h3></div>
+    <form method="post" class="clean-form">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="desativar_indisponiveis">
+      <p>Desativa produtos cujo nome coincide com insumos zerados.</p>
+      <button class="btn btn-primary" type="submit">Executar automação</button>
+    </form>
+  </article>
+
+  <article class="panel-card">
+    <div class="panel-head"><h3>Insumos zerados</h3></div>
+    <div class="command-list">
+      {% for item in low_supplies %}
+        <div class="command-item">{{ item.name }} está zerado.</div>
+      {% empty %}
+        <div class="empty-box">Nenhum insumo zerado no momento.</div>
+      {% endfor %}
+    </div>
+  </article>
+</div>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block page_title %}Caixa{% endblock %}
+{% block page_subtitle %}Abertura, fechamento e conferência{% endblock %}
+{% block content %}
+<section class="metrics-grid">
+  <article class="metric-card">
+    <div class="metric-label">Dinheiro</div>
+    <div class="metric-value">R$ {{ totals.dinheiro }}</div>
+    <div class="metric-foot">Recebimentos lançados</div>
+  </article>
+  <article class="metric-card">
+    <div class="metric-label">Cartão</div>
+    <div class="metric-value">R$ {{ totals.cartao }}</div>
+    <div class="metric-foot">Recebimentos lançados</div>
+  </article>
+  <article class="metric-card">
+    <div class="metric-label">Pix</div>
+    <div class="metric-value">R$ {{ totals.pix }}</div>
+    <div class="metric-foot">Recebimentos lançados</div>
+  </article>
+  <article class="metric-card accent">
+    <div class="metric-label">Voucher/Fiado</div>
+    <div class="metric-value">R$ {{ totals.voucher|add:totals.fiado }}</div>
+    <div class="metric-foot">Outros meios</div>
+  </article>
+</section>
+
+<div class="panel-grid">
+  <article class="panel-card">
+    <div class="panel-head"><h3>Caixa atual</h3></div>
+    {% if current %}
+      <p><strong>Status:</strong> {{ current.get_status_display }}</p>
+      <p><strong>Abertura:</strong> R$ {{ current.opening_amount }}</p>
+      <p><strong>Previsto:</strong> R$ {{ current.expected_total }}</p>
+      <form method="post" class="clean-form">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="close">
+        {{ close_form.as_p }}
+        <button class="btn btn-primary full-btn" type="submit">Fechar caixa</button>
+      </form>
+    {% else %}
+      <div class="empty-box">Nenhum caixa aberto.</div>
+      <form method="post" class="clean-form">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="open">
+        {{ open_form.as_p }}
+        <button class="btn btn-primary full-btn" type="submit">Abrir caixa</button>
+      </form>
+    {% endif %}
+  </article>
+
+  <article class="panel-card">
+    <div class="panel-head"><h3>Últimas sessões</h3></div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Abertura</th>
+          <th>Fechamento</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for session in sessions %}
+        <tr>
+          <td>#{{ session.id }}</td>
+          <td>R$ {{ session.opening_amount }}</td>
+          <td>R$ {{ session.closing_amount }}</td>
+          <td>{{ session.get_status_display }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4">Sem sessões ainda.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </article>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+ODIN V13 - ADMIN AUTOMÁTICO SEM SHELL
+
+COMO FUNCIONA:
+- o deploy roda `python manage.py bootstrap_admin`
+- se as variáveis abaixo existirem, o admin é criado/atualizado sozinho:
+  - ADMIN_USERNAME
+  - ADMIN_EMAIL
+  - ADMIN_PASSWORD
+
+NO RENDER:
+1) abra o serviço web
+2) vá em Ambiente
+3) adicione:
+   ADMIN_USERNAME=admin
+   ADMIN_EMAIL=seuemail@exemplo.com
+   ADMIN_PASSWORD=uma_senha_forte
+4) faça um novo deploy manual
+
+PRONTO:
+o admin será criado automaticamente no build, sem usar Shell pago.

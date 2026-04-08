@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block page_title %}Pedidos{% endblock %}
+{% block page_subtitle %}Lançamento rápido{% endblock %}
+{% block content %}
+<article class="form-panel">
+  <div class="form-side">
+    <span class="eyebrow">NOVO PEDIDO</span>
+    <h2>{{ title }}</h2>
+    <p>Estrutura inicial para salão, balcão, retirada e delivery. O fluxo já cria o pedido com primeiro item para teste rápido.</p>
+  </div>
+  <div class="panel-card">
+    <form method="post" class="clean-form">
+      {% csrf_token %}
+      <h3>Dados do pedido</h3>
+      {{ form.as_p }}
+      <h3>Primeiro item</h3>
+      {{ item_form.as_p }}
+      <button class="btn btn-primary" type="submit">Salvar pedido</button>
+    </form>
+  </div>
+</article>
+{% endblock %}

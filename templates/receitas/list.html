@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block page_title %}Ficha Técnica{% endblock %}
+{% block page_subtitle %}Ligação produto → insumo{% endblock %}
+{% block content %}
+<section class="page-banner">
+  <div>
+    <span class="eyebrow">RECEITAS</span>
+    <h2>Ficha técnica por produto</h2>
+    <p>Defina quanto cada prato consome de cada insumo para baixar estoque automático.</p>
+  </div>
+  <a class="btn btn-primary" href="/receitas/novo/">+ Novo item de ficha</a>
+</section>
+
+<div class="panel-grid">
+  <article class="panel-card">
+    <div class="panel-head"><h3>Itens de ficha técnica</h3></div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Produto</th>
+          <th>Insumo</th>
+          <th>Quantidade usada</th>
+          <th>Custo estimado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in recipes %}
+        <tr>
+          <td>{{ item.product.name }}</td>
+          <td>{{ item.supply.name }}</td>
+          <td>{{ item.quantity_used }} {{ item.supply.get_unit_display }}</td>
+          <td>R$ {{ item.estimated_cost }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">Nenhuma ficha técnica cadastrada.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </article>
+
+  <article class="panel-card">
+    <div class="panel-head"><h3>Custo estimado por produto</h3></div>
+    <div class="command-list">
+      {% for product_name, total_cost in product_totals.items %}
+        <div class="command-item"><strong>{{ product_name }}</strong><br>Custo estimado: R$ {{ total_cost }}</div>
+      {% empty %}
+        <div class="empty-box">Sem custos calculados ainda.</div>
+      {% endfor %}
+    </div>
+  </article>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block page_title %}Ficha Técnica{% endblock %}
+{% block page_subtitle %}Novo vínculo produto × insumo{% endblock %}
+{% block content %}
+<article class="form-panel">
+  <div class="form-side">
+    <span class="eyebrow">NOVA FICHA</span>
+    <h2>{{ title }}</h2>
+    <p>Exemplo: Contra-filé Acebolado usa carne + cebola + óleo. Quando vender, o estoque baixa sozinho.</p>
+  </div>
+  <div class="panel-card">
+    <form method="post" class="clean-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn btn-primary" type="submit">Salvar ficha</button>
+    </form>
+  </div>
+</article>
+{% endblock %}

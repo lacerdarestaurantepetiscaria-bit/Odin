@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block page_title %}Odin IA{% endblock %}
+{% block page_subtitle %}Comandos operacionais{% endblock %}
+{% block content %}
+<section class="hero-panel compact">
+  <div>
+    <span class="eyebrow">ASSISTENTE OPERACIONAL</span>
+    <h2>Digite um comando como se estivesse falando com o gerente digital</h2>
+    <p>Exemplos: cliente pagou 60 no cartão, desabilitar arroz branco, quanto vendeu hoje.</p>
+  </div>
+</section>
+
+<div class="panel-grid">
+  <article class="panel-card">
+    <form method="post" class="clean-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn btn-primary" type="submit">Executar comando</button>
+    </form>
+  </article>
+
+  <article class="panel-card">
+    <h3>Comandos de exemplo</h3>
+    <div class="command-list">
+      <div class="command-item">cliente pagou 60 no cartão</div>
+      <div class="command-item">desabilitar arroz branco</div>
+      <div class="command-item">habilitar arroz branco</div>
+      <div class="command-item">quanto vendeu hoje</div>
+      <div class="command-item">quanto tem de arroz</div>
+      <div class="command-item">estoque de arroz acabou</div>
+      <div class="command-item">produto mais vendido</div>
+      <div class="command-item">estoque baixo</div>
+      <div class="command-item">fecha o caixa</div>
+    </div>
+  </article>
+</div>
+
+{% if result %}
+<article class="panel-card result-card">
+  <h3>Resultado</h3>
+  <p><strong>Status:</strong> {{ result.ok|yesno:"Sucesso,Falha" }}</p>
+  <p>{{ result.message }}</p>
+</article>
+{% endif %}
+{% endblock %}

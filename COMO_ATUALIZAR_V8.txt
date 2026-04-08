@@ -1,0 +1,18 @@
+ODIN V8
+
+1) Extraia o ZIP em pasta nova
+2) No terminal do VS Code:
+
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver 0.0.0.0:8000
+
+Rotas:
+http://127.0.0.1:8000/painel-dono/
+http://127.0.0.1:8000/alertas/
+http://127.0.0.1:8000/automacoes/
+http://127.0.0.1:8000/odin-ia/

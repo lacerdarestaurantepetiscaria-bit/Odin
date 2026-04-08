@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block page_title %}Cozinha KDS{% endblock %}
+{% block page_subtitle %}Fila de produção{% endblock %}
+{% block content %}
+<section class="page-banner">
+  <div>
+    <span class="eyebrow">KDS</span>
+    <h2>Pedidos por estágio</h2>
+  </div>
+  <a class="btn btn-primary" href="/pedidos/">Ver pedidos</a>
+</section>
+
+<div class="kds-grid">
+  <section class="kds-col">
+    <h3>Em aberto</h3>
+    {% for order in aberto %}
+      <article class="kds-card">
+        <div class="kds-head">
+          <strong>Pedido #{{ order.id }}</strong>
+          <span>Mesa {{ order.table_number|default:"-" }}</span>
+        </div>
+        <ul class="kds-items">
+          {% for item in order.items.all %}
+            <li>{{ item.quantity }}x {{ item.product.name }}</li>
+          {% endfor %}
+        </ul>
+        <a class="btn btn-secondary full-btn" href="/cozinha/{{ order.id }}/preparo/">Mandar para preparo</a>
+      </article>
+    {% empty %}
+      <div class="empty-box">Nenhum pedido em aberto.</div>
+    {% endfor %}
+  </section>
+
+  <section class="kds-col">
+    <h3>Em preparo</h3>
+    {% for order in preparo %}
+      <article class="kds-card prep">
+        <div class="kds-head">
+          <strong>Pedido #{{ order.id }}</strong>
+          <span>Mesa {{ order.table_number|default:"-" }}</span>
+        </div>
+        <ul class="kds-items">
+          {% for item in order.items.all %}
+            <li>{{ item.quantity }}x {{ item.product.name }}</li>
+          {% endfor %}
+        </ul>
+        <a class="btn btn-primary full-btn" href="/cozinha/{{ order.id }}/pronto/">Marcar como pronto</a>
+      </article>
+    {% empty %}
+      <div class="empty-box">Nenhum pedido em preparo.</div>
+    {% endfor %}
+  </section>
+
+  <section class="kds-col">
+    <h3>Pronto</h3>
+    {% for order in pronto %}
+      <article class="kds-card ready">
+        <div class="kds-head">
+          <strong>Pedido #{{ order.id }}</strong>
+          <span>Mesa {{ order.table_number|default:"-" }}</span>
+        </div>
+        <ul class="kds-items">
+          {% for item in order.items.all %}
+            <li>{{ item.quantity }}x {{ item.product.name }}</li>
+          {% endfor %}
+        </ul>
+        <a class="btn btn-secondary full-btn" href="/cozinha/{{ order.id }}/entregue/">Baixar pedido</a>
+      </article>
+    {% empty %}
+      <div class="empty-box">Nenhum pedido pronto.</div>
+    {% endfor %}
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+COMO RODAR A V3 NO VS CODE
+
+1) Extraia este ZIP em uma pasta nova
+2) No terminal do VS Code, rode:
+
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver 0.0.0.0:8000
+
+3) Abra:
+http://127.0.0.1:8000/pdv/
+
+DICA:
+Cadastre alguns produtos em /produtos/ antes de usar o PDV.

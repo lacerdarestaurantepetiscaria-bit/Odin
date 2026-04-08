@@ -1,0 +1,18 @@
+COMANDOS PARA RODAR NO VS CODE
+
+Se for a primeira vez:
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver 0.0.0.0:8000
+
+Se o PowerShell bloquear:
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\venv\Scripts\Activate.ps1
+
+PARA SUBIR ATUALIZAÇÃO PRO GITHUB:
+git add .
+git commit -m "Atualizacao do Odin"
+git push origin main

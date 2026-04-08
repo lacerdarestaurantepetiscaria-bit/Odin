@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+{% block page_title %}PDV Operacional{% endblock %}
+{% block page_subtitle %}Caixa rápido com refinamento premium{% endblock %}
+{% block content %}
+<section class="pdv-layout">
+  <article class="pdv-main panel-card">
+    <div class="pdv-toolbar">
+      <div>
+        <span class="eyebrow">ODIN V10</span>
+        <h2>Frente de Caixa Premium</h2>
+      </div>
+      <div class="pdv-toolbar-right">
+        <input id="productSearch" type="text" placeholder="Buscar produto..." class="pdv-search">
+        <button type="button" class="btn btn-secondary" onclick="focusSearch()">Buscar</button>
+      </div>
+    </div>
+
+    <div class="pdv-categories">
+      <button class="cat-btn active" data-cat="all">Todos</button>
+      {% for cat_key, cat_label in categories %}
+        <button class="cat-btn" data-cat="{{ cat_key }}">{{ cat_label }}</button>
+      {% endfor %}
+    </div>
+
+    <div class="pdv-products" id="productGrid">
+      {% for product in products %}
+      <button
+        class="product-card"
+        data-id="{{ product.id }}"
+        data-name="{{ product.name }}"
+        data-price="{{ product.price }}"
+        data-cat="{{ product.category }}"
+        onclick="addItem({{ product.id }}, '{{ product.name|escapejs }}', '{{ product.price }}')"
+      >
+        <span class="product-name">{{ product.name }}</span>
+        <span class="product-cat">{{ product.get_category_display }}</span>
+        <span class="product-price">R$ {{ product.price }}</span>
+      </button>
+      {% empty %}
+      <div class="empty-box">Cadastre produtos para começar a vender no PDV.</div>
+      {% endfor %}
+    </div>
+  </article>
+
+  <aside class="pdv-side panel-card">
+    <form method="post" id="checkoutForm" class="clean-form">
+      {% csrf_token %}
+      <div class="pdv-side-head">
+        <div>
+          <span class="eyebrow">PEDIDO ATUAL</span>
+          <h3>Carrinho</h3>
+        </div>
+        <button type="button" class="btn btn-secondary" onclick="clearCart()">Limpar</button>
+      </div>
+
+      <div id="cartItems" class="cart-items">
+        <div class="empty-box small">Nenhum item no pedido.</div>
+      </div>
+
+      <div class="pdv-total-box">
+        <div>
+          <div class="metric-label">Total</div>
+          <div class="pdv-total" id="cartTotal">R$ 0,00</div>
+        </div>
+        <div class="pdv-mini-note">Atalhos: Enter na busca, clique rápido nos produtos e use os botões de pagamento.</div>
+      </div>
+
+      <div class="pdv-form-grid">
+        {{ form.customer_name.label_tag }}
+        {{ form.customer_name }}
+        {{ form.table_number.label_tag }}
+        {{ form.table_number }}
+        {{ form.service_type.label_tag }}
+        {{ form.service_type }}
+        {{ form.notes.label_tag }}
+        {{ form.notes }}
+        {{ form.items_json }}
+      </div>
+
+      <div class="pay-grid">
+        <button type="button" class="pay-btn cash" onclick="presetNote('Pagamento em dinheiro')">💵 Dinheiro</button>
+        <button type="button" class="pay-btn card" onclick="presetNote('Pagamento em cartão')">💳 Cartão</button>
+        <button type="button" class="pay-btn pix" onclick="presetNote('Pagamento em pix')">📲 Pix</button>
+        <button type="button" class="pay-btn voucher" onclick="presetNote('Pagamento em voucher')">🎟️ Voucher</button>
+        <button type="button" class="pay-btn fiado" onclick="presetNote('Pagamento em fiado')">🧾 Fiado</button>
+      </div>
+
+      <button type="submit" class="btn btn-primary full-btn">Finalizar e salvar pedido</button>
+    </form>
+  </aside>
+</section>
+
+<script>
+  const STORAGE_KEY = "odin_pdv_cart_v10";
+  const cart = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+
+  function persistCart() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+  }
+
+  function formatMoney(value) {
+    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+  }
+
+  function focusSearch() {
+    document.getElementById("productSearch").focus();
+  }
+
+  function addItem(id, name, price) {
+    const numericPrice = parseFloat(String(price).replace(',', '.'));
+    if (!cart[id]) {
+      cart[id] = { id, name, price: numericPrice, qty: 0 };
+    }
+    cart[id].qty += 1;
+    persistCart();
+    renderCart();
+  }
+
+  function changeQty(id, delta) {
+    if (!cart[id]) return;
+    cart[id].qty += delta;
+    if (cart[id].qty <= 0) delete cart[id];
+    persistCart();
+    renderCart();
+  }
+
+  function clearCart() {
+    Object.keys(cart).forEach(key => delete cart[key]);
+    persistCart();
+    renderCart();
+  }
+
+  function presetNote(text) {
+    const notesField = document.getElementById("id_notes");
+    if (notesField.value.trim()) {
+      notesField.value += " | " + text;
+    } else {
+      notesField.value = text;
+    }
+  }
+
+  function renderCart() {
+    const wrap = document.getElementById("cartItems");
+    const hidden = document.getElementById("id_items_json");
+    const totalEl = document.getElementById("cartTotal");
+    const items = Object.values(cart);
+    let total = 0;
+
+    if (!items.length) {
+      wrap.innerHTML = '<div class="empty-box small">Nenhum item no pedido.</div>';
+      totalEl.textContent = 'R$ 0,00';
+      hidden.value = '[]';
+      return;
+    }
+
+    wrap.innerHTML = items.map(item => {
+      const sub = item.qty * item.price;
+      total += sub;
+      return `
+        <div class="cart-row">
+          <div>
+            <div class="cart-name">${item.name}</div>
+            <div class="cart-sub">${formatMoney(item.price)} cada</div>
+          </div>
+          <div class="qty-box">
+            <button type="button" onclick="changeQty(${item.id}, -1)">-</button>
+            <span>${item.qty}</span>
+            <button type="button" onclick="changeQty(${item.id}, 1)">+</button>
+          </div>
+          <div class="cart-price">${formatMoney(sub)}</div>
+        </div>
+      `;
+    }).join("");
+
+    totalEl.textContent = formatMoney(total);
+    hidden.value = JSON.stringify(items.map(item => ({ id: item.id, qty: item.qty })));
+  }
+
+  const searchInput = document.getElementById("productSearch");
+  const catButtons = document.querySelectorAll(".cat-btn");
+  const productCards = document.querySelectorAll(".product-card");
+  let activeCategory = "all";
+
+  function filterProducts() {
+    const q = searchInput.value.toLowerCase().trim();
+    productCards.forEach(card => {
+      const name = card.dataset.name.toLowerCase();
+      const cat = card.dataset.cat;
+      const matchesText = name.includes(q);
+      const matchesCat = activeCategory === "all" || cat === activeCategory;
+      card.style.display = (matchesText && matchesCat) ? "" : "none";
+    });
+  }
+
+  searchInput.addEventListener("input", filterProducts);
+  searchInput.addEventListener("keydown", function(e){
+    if(e.key === "Enter"){
+      e.preventDefault();
+      const visible = [...productCards].find(card => card.style.display !== "none");
+      if(visible) visible.click();
+    }
+  });
+
+  catButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      catButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeCategory = btn.dataset.cat;
+      filterProducts();
+    });
+  });
+
+  document.getElementById("checkoutForm").addEventListener("submit", function(e) {
+    const hidden = document.getElementById("id_items_json");
+    if (!hidden.value || hidden.value === "[]") {
+      e.preventDefault();
+      alert("Adicione pelo menos um item no pedido.");
+      return;
+    }
+    localStorage.removeItem(STORAGE_KEY);
+  });
+
+  renderCart();
+</script>
+{% endblock %}

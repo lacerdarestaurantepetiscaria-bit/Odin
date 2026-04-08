@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block page_title %}Entrega{% endblock %}
+{% block page_subtitle %}Fluxo de delivery{% endblock %}
+{% block content %}
+<section class="page-banner">
+  <div>
+    <span class="eyebrow">DELIVERY</span>
+    <h2>Pedidos de entrega</h2>
+    <p>Acompanhe o fluxo do delivery do aberto ao entregue.</p>
+  </div>
+  <a class="btn btn-primary" href="/pdv/">Novo pedido</a>
+</section>
+
+<div class="delivery-grid">
+  {% for pedido in pedidos %}
+    <article class="delivery-card">
+      <div class="delivery-head">
+        <strong>Pedido #{{ pedido.id }}</strong>
+        <span class="status-chip">{{ pedido.get_status_display }}</span>
+      </div>
+      <div class="delivery-meta">Cliente: {{ pedido.customer|default:"-" }}</div>
+      <div class="delivery-meta">Endereço: {{ pedido.customer.address|default:"-" }}</div>
+      <div class="delivery-meta">Total: R$ {{ pedido.total }}</div>
+      <div class="table-actions">
+        <a href="/entrega/{{ pedido.id }}/preparo/">Preparo</a>
+        <a href="/entrega/{{ pedido.id }}/pronto/">Pronto</a>
+        <a href="/entrega/{{ pedido.id }}/entregue/">Entregue</a>
+      </div>
+    </article>
+  {% empty %}
+    <div class="empty-box">Nenhum pedido de delivery por enquanto.</div>
+  {% endfor %}
+</div>
+{% endblock %}

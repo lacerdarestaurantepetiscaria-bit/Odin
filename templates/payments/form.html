@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block page_title %}Pagamentos{% endblock %}
+{% block page_subtitle %}Lançamento manual{% endblock %}
+{% block content %}
+<article class="form-panel">
+  <div class="form-side">
+    <span class="eyebrow">CAIXA</span>
+    <h2>{{ title }}</h2>
+    <p>Use esta área para registrar dinheiro, cartão, Pix, voucher e fiado.</p>
+  </div>
+  <div class="panel-card">
+    <form method="post" class="clean-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn btn-primary" type="submit">Salvar pagamento</button>
+    </form>
+  </div>
+</article>
+{% endblock %}

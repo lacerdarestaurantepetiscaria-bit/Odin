@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block page_title %}Painel do Dono{% endblock %}
+{% block page_subtitle %}Visão gerencial e decisões{% endblock %}
+{% block content %}
+<section class="metrics-grid">
+  <article class="metric-card">
+    <div class="metric-label">Faturamento</div>
+    <div class="metric-value">R$ {{ total_revenue }}</div>
+    <div class="metric-foot">Total registrado</div>
+  </article>
+  <article class="metric-card">
+    <div class="metric-label">Pedidos</div>
+    <div class="metric-value">{{ total_orders }}</div>
+    <div class="metric-foot">Volume total</div>
+  </article>
+  <article class="metric-card">
+    <div class="metric-label">Ticket médio</div>
+    <div class="metric-value">R$ {{ ticket_medio }}</div>
+    <div class="metric-foot">Média por pedido</div>
+  </article>
+  <article class="metric-card accent">
+    <div class="metric-label">Top produto</div>
+    <div class="metric-value">{{ top_product }}</div>
+    <div class="metric-foot">Mais vendido</div>
+  </article>
+</section>
+
+<div class="panel-grid">
+  <article class="panel-card">
+    <div class="panel-head"><h3>Alertas de estoque</h3></div>
+    <div class="command-list">
+      {% for item in low_supplies %}
+        <div class="command-item"><strong>{{ item.name }}</strong><br>Atual: {{ item.quantity }} {{ item.get_unit_display }}</div>
+      {% empty %}
+        <div class="empty-box">Nenhum alerta de estoque baixo.</div>
+      {% endfor %}
+    </div>
+  </article>
+
+  <article class="panel-card">
+    <div class="panel-head"><h3>Consumo total de insumos</h3></div>
+    <div class="metric-value">R$ {{ total_consumption }}</div>
+    <p style="color:var(--muted)">Valor exibido em quantidade acumulada dos consumos registrados.</p>
+  </article>
+</div>
+
+<div class="panel-grid" style="margin-top:16px;">
+  <article class="panel-card">
+    <div class="panel-head"><h3>Pedidos recentes</h3></div>
+    <table class="data-table">
+      <thead><tr><th>#</th><th>Status</th><th>Tipo</th><th>Mesa</th></tr></thead>
+      <tbody>
+      {% for order in recent_orders %}
+        <tr><td>#{{ order.id }}</td><td>{{ order.get_status_display }}</td><td>{{ order.get_service_type_display }}</td><td>{{ order.table_number|default:"-" }}</td></tr>
+      {% empty %}
+        <tr><td colspan="4">Sem pedidos.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </article>
+  <article class="panel-card">
+    <div class="panel-head"><h3>Pagamentos recentes</h3></div>
+    <table class="data-table">
+      <thead><tr><th>#</th><th>Método</th><th>Valor</th></tr></thead>
+      <tbody>
+      {% for payment in recent_payments %}
+        <tr><td>#{{ payment.id }}</td><td>{{ payment.get_method_display }}</td><td>R$ {{ payment.amount }}</td></tr>
+      {% empty %}
+        <tr><td colspan="3">Sem pagamentos.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </article>
+</div>
+{% endblock %}

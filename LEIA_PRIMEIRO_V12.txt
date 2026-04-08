@@ -1,0 +1,28 @@
+ODIN V12 - CORREÇÃO WINDOWS / PYTHON 3.14
+
+O que foi corrigido:
+- removido `psycopg[binary]==3.2.3` do requirements local
+- criado `requirements-prod.txt` só para produção
+- build do Render instala o driver PostgreSQL apenas no deploy
+- local continua usando SQLite sem travar o pip
+
+RODAR LOCAL NO VS CODE:
+1) apague a pasta venv antiga, se existir
+2) rode no terminal:
+
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver 0.0.0.0:8000
+
+DEPLOY NO RENDER:
+- o build.sh instala `requirements.txt` + `requirements-prod.txt`
+- online o sistema usa PostgreSQL via DATABASE_URL
+- localmente usa SQLite
+
+SE O POWERSHELL BLOQUEAR:
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\venv\Scripts\Activate.ps1

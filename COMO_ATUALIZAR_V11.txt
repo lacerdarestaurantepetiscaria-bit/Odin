@@ -1,0 +1,23 @@
+ODIN V11
+
+RODAR LOCAL:
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver 0.0.0.0:8000
+
+DEPLOY:
+1) envie para GitHub
+2) crie um Blueprint no Render
+3) use o arquivo render.yaml
+4) depois crie o superuser no shell do Render
+
+ARQUIVOS NOVOS IMPORTANTES:
+- Procfile
+- runtime.txt
+- render.yaml
+- GUIA_DEPLOY_RENDER_V11.md
+- rodar_local_v11_windows.bat

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block page_title %}WhatsApp IA{% endblock %}
+{% block page_subtitle %}Simulador de pedido natural{% endblock %}
+{% block content %}
+<section class="page-banner">
+  <div>
+    <span class="eyebrow">CANAL DE PEDIDO</span>
+    <h2>Simulador de WhatsApp com interpretação natural</h2>
+    <p>Use esta tela para testar como o Odin entende mensagens e converte em pedido real.</p>
+  </div>
+  <a class="btn btn-primary" href="/pedidos/">Ver pedidos</a>
+</section>
+
+<div class="panel-grid">
+  <article class="panel-card">
+    <div class="panel-head"><h3>Mensagem recebida</h3></div>
+    <form method="post" class="clean-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn btn-primary" type="submit">Processar mensagem</button>
+    </form>
+    <div class="command-list" style="margin-top:16px;">
+      <div class="command-item">quero arroz, feijão, purê e fígado</div>
+      <div class="command-item">quero arroz e salada e um pedaço de peito de frango empanado</div>
+      <div class="command-item">dois contra filé acebolado e uma coca</div>
+    </div>
+  </article>
+
+  <article class="panel-card">
+    <div class="panel-head"><h3>Últimos testes</h3></div>
+    <div class="command-list">
+      {% for log in logs %}
+        <div class="command-item">
+          <strong>{{ log.sender_name|default:log.sender_phone|default:"Cliente" }}</strong><br>
+          <span style="color:#c9d1dd">{{ log.incoming_text }}</span>
+        </div>
+      {% empty %}
+        <div class="empty-box">Nenhuma simulação ainda.</div>
+      {% endfor %}
+    </div>
+  </article>
+</div>
+
+{% if result %}
+<div class="panel-grid" style="margin-top:16px;">
+  <article class="panel-card">
+    <div class="panel-head"><h3>Interpretação</h3></div>
+    <pre class="sim-pre">{{ result.parsed.summary }}</pre>
+    <p><strong>Total parcial:</strong> R$ {{ result.parsed.total }}</p>
+    {% if result.order %}
+      <p><strong>Pedido gerado:</strong> #{{ result.order.id }}</p>
+    {% endif %}
+  </article>
+  <article class="panel-card">
+    <div class="panel-head"><h3>Resposta sugerida</h3></div>
+    <pre class="sim-pre">{{ result.response }}</pre>
+  </article>
+</div>
+{% endif %}
+{% endblock %}

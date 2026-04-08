@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block page_title %}Cardápio{% endblock %}
+{% block page_subtitle %}Cadastro de produto{% endblock %}
+{% block content %}
+<article class="form-panel">
+  <div class="form-side">
+    <span class="eyebrow">NOVO ITEM</span>
+    <h2>{{ title }}</h2>
+    <p>Cadastre produtos com categoria, preço e disponibilidade. Esse módulo é a base do cardápio do salão e do delivery.</p>
+  </div>
+  <div class="panel-card">
+    <form method="post" class="clean-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn btn-primary" type="submit">Salvar produto</button>
+    </form>
+  </div>
+</article>
+{% endblock %}

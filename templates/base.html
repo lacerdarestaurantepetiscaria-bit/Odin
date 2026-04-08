@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Odin | Operação Premium</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="logo-wrap">
+      <div class="logo-mark">⚡</div>
+      <div>
+        <div class="logo-title">ODIN</div>
+        <div class="logo-sub">Operação Premium</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section-title">Operação</div>
+    <nav class="sidebar-nav">
+      <a href="/" class="nav-item">🏠 <span>Dashboard</span></a>
+      <a href="/pdv/" class="nav-item">🖥️ <span>PDV</span></a>
+      <a href="/salao/" class="nav-item">🍽️ <span>Salão</span></a>
+      <a href="/cozinha/" class="nav-item">👨‍🍳 <span>Cozinha</span></a>
+      <a href="/caixa/" class="nav-item">🏦 <span>Caixa</span></a>
+      <a href="/entrega/" class="nav-item">🛵 <span>Entrega</span></a>
+    </nav>
+
+    <div class="sidebar-section-title">Cadastros</div>
+    <nav class="sidebar-nav">
+      <a href="/produtos/" class="nav-item">🍽️ <span>Cardápio</span></a>
+      <a href="/clientes/" class="nav-item">👥 <span>Clientes</span></a>
+      <a href="/estoque/" class="nav-item">📦 <span>Estoque</span></a>
+      <a href="/receitas/" class="nav-item">🧾 <span>Ficha Técnica</span></a>
+      <a href="/pagamentos/" class="nav-item">💳 <span>Pagamentos</span></a>
+    </nav>
+
+    <div class="sidebar-section-title">Inteligência</div>
+    <nav class="sidebar-nav">
+      <a href="/odin-ia/" class="nav-item">🧠 <span>Odin IA</span></a>
+      <a href="/whatsapp/" class="nav-item">💬 <span>WhatsApp IA</span></a>
+      <a href="/painel-dono/" class="nav-item">👑 <span>Painel do Dono</span></a>
+      <a href="/alertas/" class="nav-item">🚨 <span>Alertas</span></a>
+      <a href="/automacoes/" class="nav-item">🤖 <span>Automações</span></a>
+      <a href="/admin/" class="nav-item">⚙️ <span>Admin</span></a>
+    </nav>
+
+    <div class="sidebar-box">
+      <div class="sidebar-box-title">V10</div>
+      <p>Refino visual e operacional para preparar o Odin para a fase online.</p>
+    </div>
+  </aside>
+
+  <div class="main-shell">
+    <header class="topbar">
+      <div>
+        <div class="crumb">ODIN / SISTEMA OPERACIONAL DO RESTAURANTE</div>
+        <h1 class="topbar-title">{% block page_title %}Painel Geral{% endblock %}</h1>
+        <p class="topbar-sub">{% block page_subtitle %}Sistema completo da operação{% endblock %}</p>
+      </div>
+      <div class="top-actions">
+        <a href="/pdv/" class="btn btn-primary">Abrir PDV</a>
+        <a href="/whatsapp/" class="btn btn-secondary">WhatsApp IA</a>
+      </div>
+    </header>
+
+    <main class="content">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</div>
+
+<nav class="mobile-quickbar">
+  <a href="/">🏠<span>Início</span></a>
+  <a href="/pdv/">🖥️<span>PDV</span></a>
+  <a href="/salao/">🍽️<span>Salão</span></a>
+  <a href="/cozinha/">👨‍🍳<span>Cozinha</span></a>
+  <a href="/painel-dono/">👑<span>Dono</span></a>
+</nav>
+</body>
+</html>

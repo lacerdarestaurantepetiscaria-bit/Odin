@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block page_title %}Dashboard{% endblock %}
+{% block page_subtitle %}Visão consolidada da operação{% endblock %}
+{% block content %}
+<section class="hero-panel">
+  <div>
+    <span class="eyebrow">ODIN V10</span>
+    <h2>Operação com cara de produto premium</h2>
+    <p>Base refinada para PC, tablet e celular, com foco em velocidade, leitura visual e navegação prática.</p>
+  </div>
+  <div class="hero-actions">
+    <a href="/pdv/" class="btn btn-primary">Ir para o PDV</a>
+    <a href="/painel-dono/" class="btn btn-secondary">Abrir Painel do Dono</a>
+  </div>
+</section>
+
+<section class="metrics-grid">
+  <article class="metric-card">
+    <div class="metric-label">Pedidos</div>
+    <div class="metric-value">{{ total_orders }}</div>
+    <div class="metric-foot">Movimento total</div>
+  </article>
+  <article class="metric-card">
+    <div class="metric-label">Faturamento</div>
+    <div class="metric-value">R$ {{ total_revenue }}</div>
+    <div class="metric-foot">Pagamentos lançados</div>
+  </article>
+  <article class="metric-card">
+    <div class="metric-label">Módulos ativos</div>
+    <div class="metric-value">12+</div>
+    <div class="metric-foot">Operação, IA e gestão</div>
+  </article>
+  <article class="metric-card accent">
+    <div class="metric-label">Situação</div>
+    <div class="metric-value">Pronto</div>
+    <div class="metric-foot">Fase de lapidação</div>
+  </article>
+</section>
+
+<div class="feature-strip">
+  <a class="feature-pill" href="/pdv/">Caixa rápido</a>
+  <a class="feature-pill" href="/cozinha/">KDS</a>
+  <a class="feature-pill" href="/caixa/">Fechamento</a>
+  <a class="feature-pill" href="/entrega/">Delivery</a>
+  <a class="feature-pill" href="/estoque/">Estoque</a>
+  <a class="feature-pill" href="/whatsapp/">WhatsApp IA</a>
+  <a class="feature-pill" href="/odin-ia/">Gerente IA</a>
+</div>
+
+<section class="panel-grid">
+  <article class="panel-card">
+    <div class="panel-head">
+      <h3>Últimos pedidos</h3>
+      <a href="/pedidos/">Abrir fila</a>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Mesa</th>
+          <th>Cliente</th>
+          <th>Status</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for order in orders %}
+        <tr>
+          <td>#{{ order.id }}</td>
+          <td>{{ order.table_number|default:"-" }}</td>
+          <td>{{ order.customer|default:"-" }}</td>
+          <td><span class="status-chip">{{ order.get_status_display }}</span></td>
+          <td>R$ {{ order.total }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="5">Nenhum pedido ainda.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </article>
+
+  <article class="panel-card">
+    <div class="panel-head">
+      <h3>Atalhos estratégicos</h3>
+    </div>
+    <div class="quick-grid">
+      <a class="quick-card" href="/pdv/">
+        <strong>PDV Operacional</strong>
+        <span>Caixa com carrinho e fechamento rápido</span>
+      </a>
+      <a class="quick-card" href="/salao/">
+        <strong>Salão</strong>
+        <span>Mapa de mesas com status visual</span>
+      </a>
+      <a class="quick-card" href="/cozinha/">
+        <strong>Cozinha KDS</strong>
+        <span>Fila de preparo, pronto e entregue</span>
+      </a>
+      <a class="quick-card" href="/caixa/">
+        <strong>Caixa</strong>
+        <span>Abertura, fechamento e totais</span>
+      </a>
+      <a class="quick-card" href="/entrega/">
+        <strong>Entrega</strong>
+        <span>Fluxo de delivery com status</span>
+      </a>
+      <a class="quick-card" href="/painel-dono/">
+        <strong>Painel do Dono</strong>
+        <span>Faturamento, ticket e visão gerencial</span>
+      </a>
+      <a class="quick-card" href="/alertas/">
+        <strong>Alertas</strong>
+        <span>Estoque baixo e pedidos ativos</span>
+      </a>
+      <a class="quick-card" href="/automacoes/">
+        <strong>Automações</strong>
+        <span>Regras rápidas de ação</span>
+      </a>
+    </div>
+  </article>
+</section>
+{% endblock %}
