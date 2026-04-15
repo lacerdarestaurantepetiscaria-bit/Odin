@@ -1,0 +1,57 @@
+ODIN - RELATÓRIO DE TESTES E MELHORIAS
+
+Rodada desta entrega:
+- Ajuste do fluxo salão -> fila de pagamentos -> frente de caixa do PDV
+- Melhoria da tela da mesa com abertura de comandas e lançamento por botões
+- Frente de caixa do PDV com fila de pagamentos clicável
+- Banco limpo de superusuário pré-criado
+
+O que foi implantado
+1. SALÃO / MESA
+- A tela da mesa ganhou botão "Abrir comandas"
+- O rateio agora identifica cada conta como "Mesa X • Comanda Y"
+- Foi criado um pop-up de lançamento de itens por toque
+- O atendente consegue abrir a vitrine de produtos da mesa e tocar no item para selecionar
+- A inclusão continua dentro da própria mesa, sem jogar para o PDV operacional
+
+2. FILA DE PAGAMENTOS NO PDV
+- O PDV agora tem uma área "Fila de pagamentos"
+- Mesas e pedidos com status pronto entram nessa fila
+- Ao clicar no item da fila, o recebimento é levado para a frente de caixa
+- O pagamento é feito no painel de recebimento do PDV
+- Ao concluir, o pedido é quitado e marcado como entregue
+
+3. FRENTE DE CAIXA
+- A lógica do total da frente de caixa agora reconhece dois modos:
+  a) venda nova pelo carrinho
+  b) recebimento de mesa/pedido vindo da fila
+- O botão de recebimento agora trabalha com o item selecionado da fila
+- Continua suportando dinheiro, cartão, pix, voucher e conta em aberto
+
+4. BANCO DE DADOS
+- O banco sqlite foi deixado sem superusuário pré-criado
+- Isso deixa o pacote limpo para configuração inicial do usuário
+
+Testes executados
+- python manage.py test apps.core.tests -v 2
+
+Resultado
+- 8 testes executados
+- 8 testes aprovados
+- system check sem erro
+
+Fluxos validados
+- páginas principais carregando
+- criação de pedido no PDV com pagamento
+- abertura de mesa livre
+- inclusão de item na mesa
+- visualização detalhada da mesa
+- prévia de comandas por mesa
+- envio da mesa para pagamento
+- recebimento de item pronto pela fila do PDV
+- cálculo de caixa por sessão
+
+Observações honestas
+- A tela de comandas ainda é prévia operacional, não comanda persistente individual no banco
+- O pop-up de itens usa catálogo em botões, mas ainda não possui imagens reais porque o modelo atual de produto não tem campo de imagem
+- O fluxo de pedido avulso vindo da central depende de o pedido ser marcado como pronto para entrar na fila do PDV

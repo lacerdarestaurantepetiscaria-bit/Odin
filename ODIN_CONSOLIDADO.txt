@@ -1,0 +1,107 @@
+ODIN — DOCUMENTO CONSOLIDADO
+
+1. BASE OPERACIONAL DO PROGRAMA
+O Odin foi proposto como um sistema único para restaurante, reunindo:
+- PDV
+- salão
+- cozinha / KDS
+- caixa
+- entrega
+- central de pedidos
+- estoque
+- clientes
+- equipe
+- financeiro
+- cardápio digital público
+- IA operacional
+- integrações futuras
+
+2. TESE ORIGINAL E O QUE VOCÊ ESPERA DO SISTEMA
+O sistema deve:
+- ser rápido no caixa
+- funcionar bem em PC, notebook, tablet e celular
+- ter login obrigatório
+- separar a área pública do cliente da área interna da operação
+- unificar pedidos vindos do PDV, cardápio digital, WhatsApp e futuras integrações
+- permitir conta em aberto para clientes semanais e mensais
+- controlar equipe, motoboys, caixa, produtos, clientes e pedidos
+- ter KDS dedicado para cozinha
+- ter configuração de impressão
+- ter dados do estabelecimento
+- evoluir para IA executando ações reais
+
+3. O QUE JÁ FOI IMPLANTADO
+- login e proteção básica
+- dashboard
+- PDV com carrinho
+- saída de caixa
+- conta em aberto no lugar de fiado
+- central de pedidos
+- produtos
+- clientes
+- equipe
+- pagamentos
+- receitas
+- alertas
+- cardápio digital público
+- menu reorganizado
+- configurações recolhíveis
+- cadastro de categorias dinâmicas
+- cadastro de funcionários e motoboys
+- estrutura de recebimento da equipe
+
+4. O QUE FOI IMPLANTADO NESTA ENTREGA
+- calculadora fixa dentro do PDV
+- calculadora posicionada na coluna do pedido atual
+- cálculo rápido no caixa
+- campo de troco dentro da calculadora
+- reforço de responsividade do PDV
+- melhor adaptação para resoluções menores
+- melhoria da leitura do pedido em tablet e celular
+
+5. O QUE AINDA FALTA FAZER
+PRIORIDADE ALTA
+- conta em aberto com saldo por cliente
+- folha de pagamento automática
+- dados do estabelecimento
+- impressão
+- KDS completo
+- refinamento final da central de pedidos
+
+PRIORIDADE MÉDIA
+- responsividade fina em mais telas
+- integração real com WhatsApp
+- automações de operação
+
+FUTURO
+- integração com marketplaces
+- backup automático
+- offline + sincronização
+- executável desktop
+- IA operando o sistema por comando
+
+6. COMO USAR ESTA BASE
+- substituir a pasta antiga pela nova
+- instalar requirements
+- rodar migrations
+- iniciar o servidor
+
+Comandos:
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver 0.0.0.0:8000
+
+
+ATUALIZAÇÕES DESTA ENTREGA
+- Nome do programa mantido apenas como Odin, sem versões no pacote.
+- Área de pagamento do PDV redesenhada como frente de caixa real: total, valor recebido, troco e status.
+- Teclas rápidas para valor exato, arredondamento e cédulas comuns.
+- Validação visual e de envio para impedir dinheiro abaixo do total.
+- Limpeza do JavaScript duplicado da antiga calculadora.
+- Caixa ajustado para calcular previsto e totais por sessão atual, não por histórico inteiro.
+- ALLOWED_HOSTS padrão ampliado para facilitar testes locais.
+- Testes automatizados adicionados para páginas principais, criação de pedido no PDV e cálculo de caixa por sessão.

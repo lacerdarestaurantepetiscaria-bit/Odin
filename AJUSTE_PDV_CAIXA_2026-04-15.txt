@@ -1,0 +1,15 @@
+Ajustes aplicados no PDV em 15/04/2026
+
+1. Fila de pagamentos reposicionada no meio da tela, entre a área de venda avulsa/venda direta e a frente de caixa.
+2. Campo visual de origem/atendimento removido da calculadora do caixa.
+3. Seleção de item da fila agora permite lançar adicionais no caixa antes do fechamento.
+4. O total exibido na frente de caixa soma:
+   - pendência da mesa/pedido selecionado na fila
+   - itens adicionais lançados no balcão no momento do pagamento
+5. Atalhos rápidos de recebimento ampliados com R$ 5 e R$ 10.
+6. Texto operacional da fila ajustado para deixar claro que adicionais entram junto no fechamento.
+7. Validação JavaScript corrigida para usar corretamente o pedido selecionado da fila no submit.
+
+Observação:
+- Validação estrutural por py_compile foi executada nos arquivos Python alterados.
+- Não foi possível rodar manage.py check neste ambiente porque Django não está instalado no container atual.

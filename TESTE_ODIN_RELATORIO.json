@@ -1,0 +1,46 @@
+{
+  "get_links": {
+    "checked": 70,
+    "errors": []
+  },
+  "crud": {
+    "product_edit_get": 302,
+    "product_toggle": 302,
+    "product_active_after_toggle": true,
+    "recipe_create_status": 302,
+    "recipe_created": false,
+    "customer_create_status": 302,
+    "employee_create_status": 302,
+    "rider_create_status": 302,
+    "cash_open_status": 302,
+    "cash_out_status": 302,
+    "cash_close_status": 302,
+    "manual_order_create_status": 302,
+    "manual_order_created": false,
+    "pdv_order_status": 302,
+    "pdv_order_created": false,
+    "digital_menu_public_status": 200
+  },
+  "notes": [
+    {
+      "placeholder_templates": [
+        {
+          "file": "templates/orders/list.html",
+          "keyword": "em breve"
+        },
+        {
+          "file": "templates/pdv/home.html",
+          "keyword": "placeholder"
+        },
+        {
+          "file": "templates/whatsapp/home.html",
+          "keyword": "simulado"
+        },
+        {
+          "file": "templates/auth/login.html",
+          "keyword": "placeholder"
+        }
+      ]
+    }
+  ]
+}
